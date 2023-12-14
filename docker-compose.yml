@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  nest-app:
+    container_name: nest-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 5000:3000
+    environment:
+      - DB_TYPE=postgres
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=bunlung
+      - DB_PASS=5087
+      - DB_NAME=auth_jwt_db
+      - ACCESS_TOKEN_SECRET=sdfsmifhnffwff49181
+      - REFRESH_TOKEN_SECRET=isdfgwqgwegsdgsdgdg892
+    depends_on:
+      - db
+  db:
+    container_name: postgres-db
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 5087
+      POSTGRES_USER: bunlung
+      POSTGRES_DB: auth_jwt_db
+    ports:
+      - 5432:5432  
+    volumes:
+      - pgdata:/var/lib/postgresql/data  
+volumes:
+  pgdata:
